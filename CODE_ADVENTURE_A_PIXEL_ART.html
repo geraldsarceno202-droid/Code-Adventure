@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aid Program - Code Adventure</title>
+
+<style>
+
+/* PAGINA PRINCIPAL */
+
+body {
+    background-color: #120e30;
+    color: #fdfdfd;
+    font-family: Arial, sans-serif;
+}
+
+.button {
+    background-color: #d80707;
+    color: rgb(20, 16, 16);
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+}
+
+.button:hover {
+    background-color: #4338ca;
+}
+
+/* CONTENEDOR DEL JUEGO */
+
+#contenedorJuego {
+    display: none;
+    background: #151525;
+    color: white;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#juego {
+    background: #222238;
+    border: 3px solid #7c3aed;
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* BOTONES GUSANITO */
+
+.botonesMovimiento button {
+    background: #7c3aed;
+    color: white;
+    padding: 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.botonesMovimiento button:hover {
+    background: #a78bfa;
+}
+
+/* EDITOR DEL GUERRERO */
+
+#panelGuerrero {
+    display: none;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+#editorCodigo {
+    width: 300px;
+    background: #24243c;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#codigoJugador {
+    width: 95%;
+    height: 110px;
+    background: #101020;
+    color: #8aff8a;
+    border: 1px solid #7c3aed;
+    padding: 8px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+#ayudaCodigo {
+    color: #c4b5fd;
+    text-align: left;
+    font-size: 14px;
+}
+
+#puntuacion {
+    font-size: 22px;
+    font-weight: bold;
+    color: #facc15;
+}
+
+#mensaje {
+    color: #facc15;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- PAGINA ORIGINAL -->
+
+<h1>Title</h1>
+
+<h2>Second title</h2>
+
+<p>Subtitle</p>
+
+<ul>
+    <li>We will add dialogues that will appear on the screen.</li>
+    <li>They are basic elements of programming.</li>
+</ul>
+
+<img src="AYUDA.jpg" alt="Programming guide" width="600" height="550">
+<img src="Captura de pantalla.png" alt="Programming guide 2" width="600" height="550">
+
+<br><br>
+
+<a href="https://lenguajehtml.com"
+target="_blank" class="button">
+Más información
+</a>
+
+<a href="https://www.jetbrains.com/resharper/?product=vsc&source=google&medium=cpc&campaign=latam_en_dc_resharper_vscode_google_search&term=c%23%20dev%20kit&content=827847481662&gad_source=1&gad_campaignid=24350260076&gbraid=0AAAAADloJzjUM_qbHBHhyj2vNeOhBfQX1&gclid=CjwKCAiAq5rYBhB-EiwAhj1RdkMqUIaGkJdEmdjJ3_PvjEhawhst7jcpATVIPSlXbtybUfLmMu45eRoCtb0QAvD_BwE"
+target="_blank" class="button">
+Abrir otra página
+</a>
+
+<br><br>
+
+<button class="button" onclick="abrirJuego()">
+🎮 CODE ADVENTURE
+</button>
+
+
+<!-- VIDEOJUEGO -->
+
+<div id="contenedorJuego">
+
+<h1>🎮 CODE ADVENTURE</h1>
+
+<p id="puntuacion">⭐ Puntos: 0</p>
+<p id="vidaJugadorUI" style="color:#86efac;font-weight:bold;font-size:18px">❤️ Vida: 100/100</p>
+
+<h2 id="nivel">Nivel 1: El gusanito</h2>
+
+<canvas id="juego" width="600" height="400"></canvas>
+
+<p id="mensaje">¡Consigue las 8 manzanas!</p>
+
+
+<!-- GUSANITO -->
+
+<div id="panelGusano">
+
+<h3>Selecciona una instrucción:</h3>
+
+<div class="botonesMovimiento">
+
+<button onclick="mover('arriba')">
+moverArriba();
+</button>
+
+<button onclick="mover('abajo')">
+moverAbajo();
+</button>
+
+<button onclick="mover('izquierda')">
+moverIzquierda();
+</button>
+
+<button onclick="mover('derecha')">
+moverDerecha();
+</button>
+
+</div>
+
+</div>
+
+
+<!-- GUERRERO -->
+
+<div id="panelGuerrero">
+
+<div id="editorCodigo">
+
+<h3>💻 EDITOR DE CODIGO</h3>
+
+<textarea id="codigoJugador"
+placeholder="Escribe tu instrucción aquí..."></textarea>
+
+<br><br>
+
+<button class="button" onclick="ejecutarCodigo()">
+▶ EJECUTAR
+</button>
+
+<div id="ayudaCodigo">
+
+<h4>Ejemplos de instrucciones:</h4>
+
+<p>moverDerecha();</p>
+<p>moverIzquierda();</p>
+<p>moverArriba();</p>
+<p>moverAbajo();</p>
+<p>atacar();</p>
+
+</div>
+
+<button class="button"
+id="botonAyuda"
+onclick="mostrarAyuda()"
+style="display:none">
+
+💡 AYUDA (-2 PUNTOS)
+
+</button>
+
+</div>
+
+</div>
+
+<br>
+
+<button class="button" onclick="cerrarJuego()">
+Cerrar juego
+</button>
+
+</div>
+
+
+<script>
+
+/* =================================
+   CONFIGURACION GENERAL
+================================= */
+
+const canvas = document.getElementById("juego");
+const ctx = canvas.getContext("2d");
+
+let puntos = 0;
+let nivelActual = 1;
+let juegoActivo = false;
+let ayudaUsada = false;
+let vidaJugador = 100;
+
+function actualizarPuntos() {
+
+    document.getElementById("puntuacion").textContent =
+    "⭐ Puntos: " + puntos;
+
+}
+
+function mensaje(texto) {
+
+    document.getElementById("mensaje").textContent = texto;
+
+}
+
+function actualizarVidaJugador() {
+    const indicador = document.getElementById("vidaJugadorUI");
+    if (indicador) {
+        indicador.textContent = "❤️ Vida: " + vidaJugador + "/100";
+        indicador.style.color = vidaJugador <= 30 ? "#f87171" : "#86efac";
+    }
+}
+
+function abrirJuego() {
+
+    document.getElementById("contenedorJuego").style.display = "block";
+
+    puntos = 0;
+
+    actualizarPuntos();
+
+    iniciarGusano();
+
+}
+
+function cerrarJuego() {
+
+    juegoActivo = false;
+
+    document.getElementById("contenedorJuego").style.display = "none";
+
+}
+
+
+/* =================================
+   NIVEL 1: EL GUSANITO
+================================= */
+
+let gusano = [];
+let manzana = {};
+let cantidadManzanas = 0;
+
+
+function iniciarGusano() {
+
+    nivelActual = 1;
+    cantidadManzanas = 0;
+
+    juegoActivo = true;
+
+    gusano = [
+        {x:200,y:200},
+        {x:180,y:200},
+        {x:160,y:200}
+    ];
+
+    document.getElementById("nivel").textContent =
+    "Nivel 1: El gusanito";
+
+    document.getElementById("panelGusano").style.display = "block";
+
+    document.getElementById("panelGuerrero").style.display = "none";
+
+    document.getElementById("botonAyuda").style.display = "none";
+
+    document.getElementById("ayudaCodigo").style.display = "block";
+
+    mensaje("¡Consigue las 8 manzanas!");
+
+    crearManzana();
+
+    dibujarGusano();
+
+}
+
+
+function crearManzana() {
+
+    do {
+
+        manzana = {
+            x:Math.floor(Math.random()*30)*20,
+            y:Math.floor(Math.random()*20)*20
+        };
+
+    } while (
+        gusano.some(p => p.x === manzana.x && p.y === manzana.y)
+    );
+
+}
+
+
+function dibujarGusano() {
+
+    ctx.clearRect(0,0,600,400);
+
+    // CUERPO
+
+    gusano.forEach((parte,index) => {
+
+        ctx.fillStyle = index === 0 ? "#86efac" : "#22c55e";
+
+        ctx.fillRect(parte.x,parte.y,19,19);
+
+    });
+
+    // MANZANA
+
+    ctx.fillStyle = "red";
+
+    ctx.beginPath();
+
+    ctx.arc(manzana.x+10,manzana.y+10,9,0,Math.PI*2);
+
+    ctx.fill();
+
+    document.getElementById("nivel").textContent =
+    "Nivel 1: El gusanito | 🍎 " + cantidadManzanas + "/8";
+
+}
+
+
+/* MOVIMIENTO DEL GUSANITO */
+
+function mover(direccion) {
+
+    if (!juegoActivo || nivelActual !== 1) return;
+
+    let cabeza = {...gusano[0]};
+
+    if (direccion === "arriba") cabeza.y -= 20;
+
+    if (direccion === "abajo") cabeza.y += 20;
+
+    if (direccion === "izquierda") cabeza.x -= 20;
+
+    if (direccion === "derecha") cabeza.x += 20;
+
+
+    // COMPROBAR LIMITES
+
+    if (
+        cabeza.x < 0 ||
+        cabeza.x >= 600 ||
+        cabeza.y < 0 ||
+        cabeza.y >= 400
+    ) {
+
+        mensaje("¡Llegaste al límite! Intenta otra dirección.");
+
+        return;
+
+    }
+
+
+    // COMPROBAR SI COMERA UNA MANZANA
+
+    let comera =
+        cabeza.x === manzana.x &&
+        cabeza.y === manzana.y;
+
+
+    // COMPROBAR COLISION CON EL CUERPO
+
+    let cuerpo = comera ? gusano : gusano.slice(0,-1);
+
+    if (cuerpo.some(p => p.x === cabeza.x && p.y === cabeza.y)) {
+
+        mensaje("¡Te chocaste! Intenta otra dirección.");
+
+        return;
+
+    }
+
+
+    gusano.unshift(cabeza);
+
+
+    if (comera) {
+
+        cantidadManzanas++;
+
+        puntos += 5;
+
+        actualizarPuntos();
+
+        if (cantidadManzanas >= 8) {
+
+            completarNivel1();
+
+            return;
+
+        }
+
+        crearManzana();
+
+    } else {
+
+        gusano.pop();
+
+    }
+
+    dibujarGusano();
+
+    mensaje("¡Movimiento realizado!");
+
+}
+
+
+function completarNivel1() {
+
+    juegoActivo = false;
+
+    puntos += 30;
+
+    actualizarPuntos();
+
+    document.getElementById("panelGusano").style.display = "none";
+
+    mensaje("🏆 ¡ETAPA 1 TERMINADA!");
+
+    setTimeout(iniciarGuerrero1,2000);
+
+}
+
+
+/* =================================
+   NIVEL 2: EL GUERRERO
+================================= */
+
+let jugador = {
+    x:300,
+    y:200
+};
+
+let enemigos = [];
+
+
+function crearEnemigos(comunes,raros,vidaJefe) {
+
+    enemigos = [];
+
+    let posiciones = [];
+
+    // CREAR POSICIONES ALEATORIAS
+
+    while (posiciones.length < comunes + raros) {
+
+        let nueva = {
+            x:Math.floor(Math.random()*500)+50,
+            y:Math.floor(Math.random()*300)+50
+        };
+
+        let distanciaJugador = Math.hypot(
+            nueva.x-300,
+            nueva.y-200
+        );
+
+        if (distanciaJugador < 110) continue;
+
+        let muyCerca = posiciones.some(p =>
+            Math.hypot(p.x-nueva.x,p.y-nueva.y) < 55
+        );
+
+        if (!muyCerca) posiciones.push(nueva);
+
+    }
+
+
+    let id = 0;
+
+    // ENEMIGOS COMUNES
+
+    for(let i=0;i<comunes;i++) {
+
+        enemigos.push({
+
+            x:posiciones[id].x,
+            y:posiciones[id].y,
+
+            vida:20,
+
+            tipo:"comun",
+
+            vivo:true
+
+        });
+
+        id++;
+
+    }
+
+
+    // ENEMIGOS RAROS
+
+    for(let i=0;i<raros;i++) {
+
+        enemigos.push({
+
+            x:posiciones[id].x,
+            y:posiciones[id].y,
+
+            vida:40,
+
+            tipo:"raro",
+
+            vivo:true
+
+        });
+
+        id++;
+
+    }
+
+
+    // JEFE
+
+    enemigos.push({
+
+        x:300,
+        y:60,
+
+        vida:vidaJefe,
+
+        tipo:"jefe",
+
+        vivo:true
+
+    });
+
+}
+
+
+/* INICIAR PRIMER NIVEL DEL GUERRERO */
+
+function iniciarGuerrero1() {
+
+    nivelActual = 2;
+
+    juegoActivo = true;
+
+    jugador = {x:300,y:200};
+    vidaJugador = 100;
+    actualizarVidaJugador();
+
+    ayudaUsada = false;
+
+    crearEnemigos(4,2,80);
+
+    document.getElementById("nivel").textContent =
+    "Nivel 1: El guerrero";
+
+    document.getElementById("panelGusano").style.display = "none";
+
+    document.getElementById("panelGuerrero").style.display = "flex";
+
+    document.getElementById("ayudaCodigo").style.display = "block";
+
+    document.getElementById("botonAyuda").style.display = "none";
+
+    document.getElementById("codigoJugador").value = "";
+
+    mensaje("¡Derrota a todos los enemigos!");
+
+    dibujarGuerrero();
+
+}
+
+
+/* DIBUJAR GUERRERO */
+
+function dibujarGuerrero() {
+    // ARENA PIXEL ART
+    ctx.clearRect(0,0,600,400);
+    ctx.fillStyle = "#17243b";
+    ctx.fillRect(0,0,600,400);
+    ctx.strokeStyle = "#263b59";
+    ctx.lineWidth = 1;
+    for(let x=0;x<=600;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,400);ctx.stroke();}
+    for(let y=0;y<=400;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(600,y);ctx.stroke();}
+
+    function pixel(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),w,h);}
+    function texto(texto,x,y,color="#ffffff"){ctx.font="bold 12px monospace";ctx.textAlign="center";ctx.fillStyle=color;ctx.fillText(texto,x,y);}
+
+    // BARRA DE VIDA DEL JUGADOR
+    ctx.fillStyle="#111827"; ctx.fillRect(12,12,160,18);
+    ctx.fillStyle="#ef4444"; ctx.fillRect(15,15,154,12);
+    ctx.fillStyle="#22c55e"; ctx.fillRect(15,15,154*(vidaJugador/100),12);
+    ctx.fillStyle="#ffffff"; ctx.font="bold 12px Arial"; ctx.textAlign="left";
+    ctx.fillText("TU VIDA: "+vidaJugador+"/100",18,44);
+
+    // SOMBRA Y GUERRERO DEL JUGADOR
+    ctx.fillStyle="rgba(0,0,0,.35)";ctx.beginPath();ctx.ellipse(jugador.x, jugador.y+19, 17, 6, 0, 0, Math.PI*2);ctx.fill();
+    let x=jugador.x, y=jugador.y;
+    pixel(x-10,y-19,20,9,"#7c3aed"); pixel(x-8,y-10,16,13,"#f1c27d");
+    pixel(x-10,y+3,20,17,"#2563eb"); pixel(x-13,y+5,5,13,"#f1c27d"); pixel(x+8,y+5,5,13,"#f1c27d");
+    pixel(x-9,y+19,7,8,"#263238"); pixel(x+2,y+19,7,8,"#263238");
+    pixel(x-6,y-6,3,3,"#111827"); pixel(x+3,y-6,3,3,"#111827");
+    pixel(x+13,y-2,4,23,"#cbd5e1"); pixel(x+11,y-5,8,5,"#facc15");
+    texto("TU",x,y-31,"#93c5fd");
+
+    // ENEMIGOS PIXELADOS
+    enemigos.forEach(enemigo => {
+        if(!enemigo.vivo) return;
+        let ex=enemigo.x, ey=enemigo.y;
+        ctx.fillStyle="rgba(0,0,0,.35)";ctx.beginPath();ctx.ellipse(ex,ey+18,17,6,0,0,Math.PI*2);ctx.fill();
+        if(enemigo.tipo==="comun"){
+            pixel(ex-9,ey-16,18,13,"#991b1b"); pixel(ex-12,ey-7,24,20,"#dc2626");
+            pixel(ex-7,ey-3,4,4,"#fef08a");pixel(ex+3,ey-3,4,4,"#fef08a");
+            pixel(ex-9,ey+13,7,7,"#450a0a");pixel(ex+2,ey+13,7,7,"#450a0a");
+            texto("GOBLIN",ex,ey-25,"#fecaca");
+        } else if(enemigo.tipo==="raro"){
+            pixel(ex-8,ey-19,16,12,"#6d28d9");pixel(ex-13,ey-8,26,23,"#a855f7");
+            pixel(ex-7,ey-4,4,4,"#67e8f9");pixel(ex+3,ey-4,4,4,"#67e8f9");
+            pixel(ex-15,ey-17,5,9,"#ddd6fe");pixel(ex+10,ey-17,5,9,"#ddd6fe");
+            texto("ORCO RARO",ex,ey-27,"#e9d5ff");
+        } else {
+            pixel(ex-17,ey-28,34,20,"#92400e");pixel(ex-23,ey-12,46,37,"#f97316");
+            pixel(ex-13,ey-5,8,7,"#fef08a");pixel(ex+5,ey-5,8,7,"#fef08a");
+            pixel(ex-19,ey+22,13,10,"#451a03");pixel(ex+6,ey+22,13,10,"#451a03");
+            pixel(ex-27,ey-24,8,17,"#facc15");pixel(ex+19,ey-24,8,17,"#facc15");
+            texto("JEFE",ex,ey-39,"#fed7aa");
+        }
+        ctx.fillStyle="#111827";ctx.fillRect(ex-22,ey+34,44,6);
+        ctx.fillStyle="#22c55e";ctx.fillRect(ex-22,ey+34,44*Math.max(0,enemigo.vida/(enemigo.tipo==="jefe"?120:enemigo.tipo==="raro"?40:20)),6);
+        texto("HP:"+enemigo.vida,ex,ey+51,"#ffffff");
+    });
+}
+
+
+/* =================================
+   INTERPRETAR CODIGOS
+================================= */
+
+function ejecutarCodigo() {
+
+    if (!juegoActivo || nivelActual < 2) return;
+
+    let codigo = document.getElementById("codigoJugador").value.trim();
+
+    codigo = codigo.replace(/\s/g,"");
+
+    let instrucciones = {
+
+        "moverDerecha();":"derecha",
+
+        "moverIzquierda();":"izquierda",
+
+        "moverArriba();":"arriba",
+
+        "moverAbajo();":"abajo",
+
+        "atacar();":"atacar"
+
+    };
+
+
+    if (!instrucciones[codigo]) {
+
+        mensaje("❌ Código incorrecto. Revisa la instrucción.");
+
+        return;
+
+    }
+
+    ejecutarAccion(instrucciones[codigo]);
+
+    document.getElementById("codigoJugador").value = "";
+
+}
+
+
+/* MOVIMIENTOS DEL GUERRERO */
+
+function ejecutarAccion(accion) {
+
+    let velocidad = 35;
+
+    if (accion === "derecha") jugador.x += velocidad;
+
+    if (accion === "izquierda") jugador.x -= velocidad;
+
+    if (accion === "arriba") jugador.y -= velocidad;
+
+    if (accion === "abajo") jugador.y += velocidad;
+
+
+    jugador.x = Math.max(15,Math.min(585,jugador.x));
+
+    jugador.y = Math.max(15,Math.min(385,jugador.y));
+
+
+    if (accion === "atacar") {
+
+        atacar();
+
+    }
+
+
+    moverEnemigos();
+
+    dibujarGuerrero();
+
+    if (vidaJugador <= 0) return;
+    comprobarVictoria();
+
+}
+
+
+/* =================================
+   SISTEMA DE ATAQUE
+================================= */
+
+function atacar() {
+
+    let enemigoCercano = null;
+
+    let distanciaMenor = Infinity;
+
+
+    enemigos.forEach(enemigo => {
+
+        if (!enemigo.vivo) return;
+
+        let distancia = Math.hypot(
+
+            jugador.x-enemigo.x,
+
+            jugador.y-enemigo.y
+
+        );
+
+
+        if (distancia < distanciaMenor) {
+
+            distanciaMenor = distancia;
+
+            enemigoCercano = enemigo;
+
+        }
+
+    });
+
+
+    if (!enemigoCercano || distanciaMenor > 70) {
+
+        mensaje("¡No hay enemigos cerca para atacar!");
+
+        return;
+
+    }
+
+
+    enemigoCercano.vida -= 20;
+
+    mensaje("¡Ataque realizado!");
+
+
+    if (enemigoCercano.vida <= 0) {
+
+        enemigoCercano.vivo = false;
+
+        if (enemigoCercano.tipo === "comun") puntos += 10;
+
+        if (enemigoCercano.tipo === "raro") puntos += 20;
+
+        if (enemigoCercano.tipo === "jefe") puntos += 50;
+
+        actualizarPuntos();
+
+        mensaje("¡Enemigo derrotado!");
+
+    }
+
+}
+
+
+/* LOS ENEMIGOS SE ACERCAN */
+
+function moverEnemigos() {
+
+    let atacante = null;
+    let distanciaAtaque = Infinity;
+
+    enemigos.forEach(enemigo => {
+        if (!enemigo.vivo) return;
+
+        let dx = jugador.x - enemigo.x;
+        let dy = jugador.y - enemigo.y;
+        let distancia = Math.hypot(dx, dy);
+
+        // Los enemigos avanzan hacia el jugador.
+        if (distancia > 30) {
+            enemigo.x += (dx / distancia) * 1.5;
+            enemigo.y += (dy / distancia) * 1.5;
+        }
+
+        let distanciaActual = Math.hypot(jugador.x - enemigo.x, jugador.y - enemigo.y);
+        if (distanciaActual <= 38 && distanciaActual < distanciaAtaque) {
+            atacante = enemigo;
+            distanciaAtaque = distanciaActual;
+        }
+    });
+
+    // Solo el enemigo más cercano ataca en cada turno.
+    if (atacante) {
+        let daño = atacante.tipo === "jefe" ? 15 : atacante.tipo === "raro" ? 8 : 5;
+        vidaJugador = Math.max(0, vidaJugador - daño);
+        actualizarVidaJugador();
+        mensaje("¡" + (atacante.tipo === "jefe" ? "EL JEFE" : atacante.tipo === "raro" ? "EL ENEMIGO RARO" : "EL GOBLIN") + " TE ATACÓ! -" + daño + " de vida");
+        if (vidaJugador <= 0) {
+            juegoActivo = false;
+            mensaje("💀 ¡Te derrotaron! Pulsa CODE ADVENTURE para volver a intentarlo.");
+        }
+    }
+
+}
+
+
+/* =================================
+   COMPROBAR VICTORIA
+================================= */
+
+function comprobarVictoria() {
+
+    let restantes = enemigos.filter(e => e.vivo).length;
+
+    if (restantes > 0) return;
+
+    juegoActivo = false;
+
+
+    if (nivelActual === 2) {
+
+        puntos += 30;
+
+        actualizarPuntos();
+
+        mensaje("🏆 ¡NIVEL 1 COMPLETADO! ¡Vamos campeón, tú puedes sin ayuda!");
+
+        document.getElementById("botonAyuda").style.display = "inline-block";
+
+        setTimeout(iniciarGuerrero2,3500);
+
+    }
+
+    else if (nivelActual === 3) {
+
+        puntos += 100;
+
+        actualizarPuntos();
+
+        mensaje("🏆 ¡FELICIDADES! ¡COMPLETASTE CODE ADVENTURE!");
+
+    }
+
+}
+
+
+/* =================================
+   SEGUNDO NIVEL DEL GUERRERO
+================================= */
+
+function iniciarGuerrero2() {
+
+    nivelActual = 3;
+
+    juegoActivo = true;
+
+    jugador = {x:300,y:200};
+    vidaJugador = 100;
+    actualizarVidaJugador();
+
+    ayudaUsada = false;
+
+    crearEnemigos(6,3,120);
+
+    document.getElementById("nivel").textContent =
+    "Nivel 2: El desafío final";
+
+    document.getElementById("ayudaCodigo").style.display = "none";
+
+    document.getElementById("botonAyuda").style.display = "inline-block";
+
+    document.getElementById("codigoJugador").value = "";
+
+    mensaje("¡Ahora demuestra lo que aprendiste!");
+
+    dibujarGuerrero();
+
+}
+
+
+/* =================================
+   SISTEMA DE AYUDA
+================================= */
+
+function mostrarAyuda() {
+
+    if (nivelActual !== 3 || !juegoActivo) return;
+
+    if (ayudaUsada) {
+
+        mensaje("Ya utilizaste la ayuda de este nivel.");
+
+        return;
+
+    }
+
+    if (puntos < 2) {
+
+        mensaje("No tienes suficientes puntos.");
+
+        return;
+
+    }
+
+    puntos -= 2;
+
+    ayudaUsada = true;
+
+    actualizarPuntos();
+
+    document.getElementById("ayudaCodigo").style.display = "block";
+
+    mensaje("¡Aquí tienes los códigos disponibles!");
+
+}
+
+</script>
+
+</body>
+</html>
